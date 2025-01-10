@@ -2,6 +2,13 @@
 
 docker hub page: https://hub.docker.com/repository/docker/yao3060/wordpress-php/general
 
+## php8.3 + apache
+
+```
+docker build --tag yao3060/wordpress:php8.3-apache  ./.8.3-apache/Dockerfile
+docker push yao3060/wordpress:php8.3-apache
+```
+
 ## php8.2 + apache
 
 ```
