@@ -1,6 +1,6 @@
 # README
 
-docker hub page: https://hub.docker.com/repository/docker/yao3060/wordpress-php/general
+docker hub page: [https://hub.docker.com/repository/docker/yao3060/wordpress-php/general](https://hub.docker.com/repository/docker/yao3060/wordpress/general)
 
 ## php8.3 + frankenphp
 
