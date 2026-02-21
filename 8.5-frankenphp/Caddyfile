@@ -1,0 +1,59 @@
+## 全局设置
+{
+	# 使用本地证书
+	# local_certs
+
+	# 禁用自动 HTTPS 重定向，这在使用反向代理和云负载均衡器时是必要的
+	# This is required to avoid redirect loops when using a reverse proxy and cloud load balancers.
+	auto_https disable_redirects
+
+	frankenphp
+  	order php_server before file_server
+}
+
+## 其他全局设置
+{$CADDY_EXTRA_CONFIG}
+
+## Need to set all hosts with port for the cloud.
+# 主服务器配置：
+# - {$SERVER_NAME:localhost}：服务器名称，默认为 localhost
+# - root * /var/www/html/：根目录
+# - encode zstd br gzip：启用 br 压缩，启用 zstd 压缩，启用 gzip 压缩
+# - php_server：启用 PHP 服务器
+# You may not have the hostname being called due to dynamic IPs and load balancers.
+# Allowing all hosts on port 80 for health checks, local dev & cases where the hostname is unknown.
+{$SERVER_NAME:localhost} {
+
+	root * /var/www/html/
+	encode zstd br gzip
+
+	# 1. 敏感路径直接 404，避免泄露配置与版本信息
+	@blocked path_regexp ^/(wp-config\.php|wp-config-sample\.php|readme\.html|license\.txt|\.git.*)
+	handle @blocked {
+		respond 404
+	}
+
+	# 2. 静态资源直连，不经过 PHP，并加长期缓存（主题/插件/上传）
+	handle_path /wp-content/* {
+		root * /var/www/html/wp-content
+		file_server
+		header Cache-Control "public, max-age=31536000, immutable"
+	}
+	handle_path /wp-includes/* {
+		root * /var/www/html/wp-includes
+		file_server
+		header Cache-Control "public, max-age=2592000"
+	}
+
+	# 3. 安全头（可选，与插件重复时可去掉）
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	# 4. 其余请求交给 PHP / WordPress
+	handle {
+		php_server
+	}
+}

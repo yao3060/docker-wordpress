@@ -10,8 +10,9 @@ Docker Hub: [yao3060/wordpress](https://hub.docker.com/repository/docker/yao3060
 
 | 镜像 Tag | 运行时 | 说明 |
 |----------|--------|------|
-| `php8.4-frankenphp` | PHP 8.4 + Caddy (FrankenPHP) | 最新 PHP，HTTP/3、Worker 模式，适合生产与高并发 |
-| `php8.3-frankenphp` | PHP 8.3 + Caddy (FrankenPHP) | 同上，PHP 8.3 长期支持 |
+| `php8.5-frankenphp` | PHP 8.5 + Caddy (FrankenPHP) | 最新 PHP 8.5，HTTP/3、Worker 模式，适合生产与高并发 |
+| `php8.4-frankenphp` | PHP 8.4 + Caddy (FrankenPHP) | PHP 8.4，HTTP/3、Worker 模式 |
+| `php8.3-frankenphp` | PHP 8.3 + Caddy (FrankenPHP) | PHP 8.3 长期支持 |
 | `php8.3-apache` | PHP 8.3 + Apache | 传统 Apache 栈，兼容常见虚拟主机/面板 |
 | `php8.2-apache` | PHP 8.2 + Apache | Apache + PHP 8.2 |
 | `php8.1-apache` | PHP 8.1 + Apache | Apache + PHP 8.1，兼容旧环境 |
@@ -20,6 +21,15 @@ Docker Hub: [yao3060/wordpress](https://hub.docker.com/repository/docker/yao3060
 - **Apache 镜像**：基于 `php:*-apache`，带 mod_rewrite、remoteip，使用 Debian 官方源构建。
 
 ---
+
+## php8.5-frankenphp
+
+PHP 8.5 + Caddy（FrankenPHP），支持 HTTP/3、Worker 模式；扩展含 imagick 3.8.1、redis、pcntl，含 WP-CLI 与默认 MySQL client。
+
+```bash
+docker build --tag yao3060/wordpress:php8.5-frankenphp  ./8.5-frankenphp
+docker push yao3060/wordpress:php8.5-frankenphp
+```
 
 ## php8.4-frankenphp
 
@@ -70,6 +80,7 @@ docker push yao3060/wordpress:php8.1-apache
 
 本仓库已配置 GitHub Actions，自动构建并推送以下镜像到 Docker Hub：
 
+- `yao3060/wordpress:php8.5-frankenphp`（上下文：`8.5-frankenphp/`）
 - `yao3060/wordpress:php8.4-frankenphp`（上下文：`8.4-frankenphp/`）
 - `yao3060/wordpress:php8.3-frankenphp`（上下文：`8.3-frankenphp/`）
 - `yao3060/wordpress:php8.3-apache`（上下文：`8.3-apache/`）
