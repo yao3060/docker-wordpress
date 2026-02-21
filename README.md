@@ -2,6 +2,13 @@
 
 docker hub page: [https://hub.docker.com/repository/docker/yao3060/wordpress/general](https://hub.docker.com/repository/docker/yao3060/wordpress/general)
 
+## php8.4 + frankenphp
+
+```bash
+docker build --tag yao3060/wordpress:php8.4-frankenphp  ./8.4-frankenphp
+docker push yao3060/wordpress:php8.4-frankenphp
+```
+
 ## php8.3 + frankenphp
 
 ```bash
