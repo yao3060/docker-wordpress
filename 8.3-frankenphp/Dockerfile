@@ -16,7 +16,7 @@ RUN set -eux; \
 
 # PHP extensions for WordPress (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
 # FrankenPHP image has install-php-extensions built-in; it installs system deps and cleans up automatically
-RUN install-php-extensions imagick-3.7.0
+RUN install-php-extensions imagick-3.8.1
 RUN install-php-extensions \
 		bcmath \
 		exif \
