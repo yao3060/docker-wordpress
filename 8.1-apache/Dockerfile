@@ -1,18 +1,6 @@
 # https://github.com/docker-library/wordpress/blob/master/latest/php8.2/apache/Dockerfile
 FROM php:8.1-apache
 
-# debian source from aliyun https://developer.aliyun.com/mirror/debian?spm=a2c6h.13651102.0.0.3e221b11I7OCDs
-RUN { \
-		echo 'deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib'; \
-		echo 'deb-src http://mirrors.aliyun.com/debian/ bullseye main non-free contrib'; \
-		echo 'deb http://mirrors.aliyun.com/debian-security/ bullseye-security main'; \
-		echo 'deb-src http://mirrors.aliyun.com/debian-security/ bullseye-security main'; \
-		echo 'deb http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib'; \
-		echo 'deb-src http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib'; \
-		echo 'deb http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib'; \
-		echo 'deb-src http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib'; \
-	} > /etc/apt/sources.list
-
 # persistent dependencies
 RUN set -eux; \
 	apt-get update; \
