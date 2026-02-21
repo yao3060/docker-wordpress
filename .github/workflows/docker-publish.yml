@@ -8,6 +8,7 @@ on:
       - '8.2-apache/**'
       - '8.3-apache/**'
       - '8.3-frankenphp/**'
+      - '8.4-frankenphp/**'
       - '.github/workflows/docker-publish.yml'
   workflow_dispatch:
 
@@ -22,6 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - context: 8.4-frankenphp
+            tag_suffix: php8.4-frankenphp
           - context: 8.3-frankenphp
             tag_suffix: php8.3-frankenphp
           - context: 8.3-apache

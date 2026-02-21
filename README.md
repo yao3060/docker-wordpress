@@ -41,6 +41,7 @@ docker push yao3060/wordpress:php8.1-apache
 
 本仓库已配置 GitHub Actions，自动构建并推送以下镜像到 Docker Hub：
 
+- `yao3060/wordpress:php8.4-frankenphp`（上下文：`8.4-frankenphp/`）
 - `yao3060/wordpress:php8.3-frankenphp`（上下文：`8.3-frankenphp/`）
 - `yao3060/wordpress:php8.3-apache`（上下文：`8.3-apache/`）
 - `yao3060/wordpress:php8.2-apache`（上下文：`8.2-apache/`）
