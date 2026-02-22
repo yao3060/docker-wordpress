@@ -4,38 +4,45 @@ on:
   push:
     branches: ["main"]
     paths:
-      - '8.1-apache/**'
-      - '8.2-apache/**'
-      - '8.3-apache/**'
-      - '8.3-frankenphp/**'
-      - '8.4-frankenphp/**'
-      - '8.5-frankenphp/**'
+      - 'wordpress-php-8.1-apache/**'
+      - 'wordpress-php-8.2-apache/**'
+      - 'wordpress-php-8.3-apache/**'
+      - 'wordpress-php-8.3-frankenphp/**'
+      - 'wordpress-php-8.4-frankenphp/**'
+      - 'wordpress-php-8.5-frankenphp/**'
+      - 'laravel-php-8.4-frankenphp/**'
       - '.github/workflows/docker-publish.yml'
   workflow_dispatch:
 
-env:
-  IMAGE_NAME: yao3060/wordpress
-
 jobs:
   build-and-push:
-    name: Build and push (${{ matrix.tag_suffix }})
+    name: Build and push (${{ matrix.image_name }}:${{ matrix.tag_suffix }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - context: 8.5-frankenphp
+          - image_name: yao3060/wordpress
+            context: wordpress-php-8.5-frankenphp
             tag_suffix: php8.5-frankenphp
-          - context: 8.4-frankenphp
+          - image_name: yao3060/wordpress
+            context: wordpress-php-8.4-frankenphp
             tag_suffix: php8.4-frankenphp
-          - context: 8.3-frankenphp
+          - image_name: yao3060/wordpress
+            context: wordpress-php-8.3-frankenphp
             tag_suffix: php8.3-frankenphp
-          - context: 8.3-apache
+          - image_name: yao3060/wordpress
+            context: wordpress-php-8.3-apache
             tag_suffix: php8.3-apache
-          - context: 8.2-apache
+          - image_name: yao3060/wordpress
+            context: wordpress-php-8.2-apache
             tag_suffix: php8.2-apache
-          - context: 8.1-apache
+          - image_name: yao3060/wordpress
+            context: wordpress-php-8.1-apache
             tag_suffix: php8.1-apache
+          - image_name: yao3060/laravel
+            context: laravel-php-8.4-frankenphp
+            tag_suffix: php8.4-frankenphp
 
     steps:
       - name: Checkout
@@ -59,7 +66,7 @@ jobs:
           context: ./${{ matrix.context }}
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ env.IMAGE_NAME }}:${{ matrix.tag_suffix }}
+          tags: ${{ matrix.image_name }}:${{ matrix.tag_suffix }}
           provenance: false
 
 

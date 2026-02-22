@@ -1,0 +1,6 @@
+# Normalize line endings to LF for text files
+* text=auto eol=lf
+
+# Explicitly declare binary files
+*.{png,jpg,jpeg,gif,ico,webp,woff,woff2,ttf,eot} binary
+*.phar binary
