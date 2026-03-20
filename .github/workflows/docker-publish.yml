@@ -32,11 +32,14 @@ jobs:
             context: wordpress-php-8.3-frankenphp
             tag_suffix: php8.3-frankenphp
           - image_name: yao3060/wordpress
-            context: wordpress-php-8.3-apache
-            tag_suffix: php8.3-apache
+            context: wordpress-php-8.5-apache
+            tag_suffix: php8.5-apache
           - image_name: yao3060/wordpress
             context: wordpress-php-8.4-apache
             tag_suffix: php8.4-apache
+          - image_name: yao3060/wordpress
+            context: wordpress-php-8.3-apache
+            tag_suffix: php8.3-apache
           - image_name: yao3060/wordpress
             context: wordpress-php-8.2-apache
             tag_suffix: php8.2-apache
