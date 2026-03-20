@@ -127,6 +127,15 @@ RUN set -eux; \
 # (replace all instances of "%h" with "%a" in LogFormat)
 	find /etc/apache2 -type f -name '*.conf' -exec sed -ri 's/([[:space:]]*LogFormat[[:space:]]+"[^"]*)%h([^"]*")/\1%a\2/g' '{}' +
 
+
+VOLUME /var/www/html
+
+#########################################################
+# 部分内容来自 https://github.com/docker-library/wordpress/blob/master/8.4/apache/Dockerfile
+#########################################################
+
+WORKDIR /var/www/html
+
 COPY --from=composer:2.7.7 /usr/bin/composer /usr/bin/composer
 
 # persistent dependencies
@@ -142,4 +151,5 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
   mv wp-cli.phar /usr/local/bin/wp && \
   mkdir -p /var/www/.wp-cli
 
-VOLUME /var/www/html
+
+# CMD ["apache2-foreground"]
