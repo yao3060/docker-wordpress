@@ -1,0 +1,56 @@
+services:
+
+  # 本地已经有 docker-compose + nginx + wordpress + mysql，
+  # 要模拟 CDN 按路径回源（path based origin routing），本质就是让 nginx 充当“本地 CDN”
+  # 
+  # 所以我们要配置 nginx.conf，让 nginx 充当“本地 CDN”
+  # 这样我们就可以实现 CDN 按路径回源，比如 /us-en/ 访问 wordpress
+  # 
+  cdn:
+    image: nginx:1.27
+    ports:
+      - "80:80"
+    volumes:
+      - .docker/cdn/nginx.conf:/etc/nginx/nginx.conf
+
+  wordpress_apache:
+    image: yao3060/wordpress:php8.4-apache
+    restart: "no"
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: wordpress_apache_db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_POST_REVISIONS', 3 );
+        define( 'WP_SITEURL', 'http://localhost/us-en' );
+        define( 'WP_HOME', 'http://localhost/us-en' );
+    volumes:
+      - ./src:/var/www/html
+
+  wordpress_apache_db:
+    image: mysql:8.0
+    restart: "no"
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - wordpress_apache_db_data:/var/lib/mysql
+
+
+  adminer:
+    image: adminer
+    restart: "no"
+    environment:
+      - ADMINER_PLUGINS=tables-filter tinymce
+      # - ADMINER_DEFAULT_SERVER=wordpress_apache_db
+      # - ADMINER_DESIGN='nette'
+    ports:
+      - 8081:8080
+
+volumes:
+  wordpress_apache_db_data:
