@@ -10,6 +10,9 @@ services:
     image: nginx:1.27
     ports:
       - "80:80"
+    depends_on:
+      - wordpress_apache
+      - wordpress_frankenphp
     volumes:
       - .docker/cdn/nginx.conf:/etc/nginx/nginx.conf
 
@@ -19,28 +22,81 @@ services:
     ports:
       - 8080:80
     environment:
-      WORDPRESS_DB_HOST: wordpress_apache_db
-      WORDPRESS_DB_USER: exampleuser
-      WORDPRESS_DB_PASSWORD: examplepass
-      WORDPRESS_DB_NAME: exampledb
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST:-wordpress_apache_db}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-root}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-domain}
+      WORDPRESS_DEBUG: 1
       WORDPRESS_CONFIG_EXTRA: |
         define( 'WP_POST_REVISIONS', 3 );
         define( 'WP_SITEURL', 'http://localhost/us-en' );
         define( 'WP_HOME', 'http://localhost/us-en' );
     volumes:
-      - ./src:/var/www/html
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - wordpress_apache_db
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
 
   wordpress_apache_db:
     image: mysql:8.0
     restart: "no"
     environment:
-      MYSQL_DATABASE: exampledb
-      MYSQL_USER: exampleuser
-      MYSQL_PASSWORD: examplepass
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME:-domain}
+      MYSQL_ROOT_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
     volumes:
       - wordpress_apache_db_data:/var/lib/mysql
 
+
+  wordpress_frankenphp:
+    image: yao3060/wordpress:php8.4-frankenphp
+    restart: "no"
+    ports:
+      - "${WORDPRESS_HTTP_PORT:-8000}:8000"
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-:8000}
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST:-wordpress_frankenphp_db}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-root}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-domain}
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_POST_REVISIONS', 3 );
+        define( 'WP_SITEURL', 'http://localhost/eu-en' );
+        define( 'WP_HOME', 'http://localhost/eu-en' );
+    volumes:
+      - ./src:/var/www/html:delegated
+      - ./wordpress-php-8.4-frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
+      - .docker/php/opcache-recommended.ini:/usr/local/etc/php/conf.d/opcache-recommended.ini
+      - .docker/php/wp.ini:/usr/local/etc/php/conf.d/wp.ini
+      - caddy-data:/data
+      - caddy-config:/config
+    command: ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+    depends_on:
+      - wordpress_frankenphp_db
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  wordpress_frankenphp_db:
+    image: mysql:8.0
+    restart: "no"
+    environment:
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME:-domain}
+      MYSQL_ROOT_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
+    volumes:
+      - wordpress_frankenphp_db_data:/var/lib/mysql
 
   adminer:
     image: adminer
@@ -54,3 +110,6 @@ services:
 
 volumes:
   wordpress_apache_db_data:
+  wordpress_frankenphp_db_data:
+  caddy-data:
+  caddy-config:

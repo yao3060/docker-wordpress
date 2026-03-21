@@ -42,6 +42,12 @@ RUN set -eux; \
     echo 'opcache.enable_cli=1'; \
     } > $PHP_INI_DIR/conf.d/opcache-recommended.ini
 
+# override opcache configuration for dev environment
+RUN if [ "$ENVIRONMENT" = "local" ]; then \
+  sed -i "/opcache.revalidate_freq/c opcache.revalidate_freq=0" $PHP_INI_DIR/conf.d/opcache-recommended.ini; \
+  fi
+
+
 # https://wordpress.org/support/article/editing-wp-config-php/#configure-error-logging
 
 RUN { \
@@ -65,6 +71,7 @@ RUN { \
     echo 'post_max_size = 512M'; \
     } > $PHP_INI_DIR/conf.d/wp.ini
 
+VOLUME /var/www/html
 
 WORKDIR /var/www/html
 

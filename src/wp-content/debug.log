@@ -1,0 +1,27 @@
+[21-Mar-2026 16:47:02 UTC] PHP Warning:  wp_update_plugins(): 发生了预料之外的错误。 WordPress.org 或是此服务器的配置可能出了一些问题。如果您持续遇到困难，请试试<a href="https://cn.wordpress.org/support/forums/">支持论坛</a>。 （WordPress 无法建立到 WordPress.org 的安全连接，请联系您的服务器管理员。） in /var/www/html/wp-includes/functions.php on line 6170
+[21-Mar-2026 16:51:50 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 16:51:50 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 136
+[21-Mar-2026 16:52:12 UTC] PHP Warning:  wp_update_plugins(): 发生了预料之外的错误。 WordPress.org 或是此服务器的配置可能出了一些问题。如果您持续遇到困难，请试试<a href="https://cn.wordpress.org/support/forums/">支持论坛</a>。 （WordPress 无法建立到 WordPress.org 的安全连接，请联系您的服务器管理员。） in /var/www/html/wp-includes/functions.php on line 6170
+[21-Mar-2026 16:52:14 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/wp-includes/functions.php:6170) in /var/www/html/wp-admin/admin-header.php on line 14
+[21-Mar-2026 16:52:14 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/wp-includes/functions.php:6170) in /var/www/html/wp-includes/option.php on line 1738
+[21-Mar-2026 16:52:14 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/www/html/wp-includes/functions.php:6170) in /var/www/html/wp-includes/option.php on line 1739
+[21-Mar-2026 16:52:30 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 16:53:09 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 16:53:09 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 136
+[21-Mar-2026 16:54:37 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 16:55:01 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 571
+[21-Mar-2026 17:03:36 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:03:39 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 571
+[21-Mar-2026 17:03:40 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:03:40 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 136
+[21-Mar-2026 17:10:29 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:10:29 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 136
+[21-Mar-2026 17:10:30 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:12:57 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:12:57 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 136
+[21-Mar-2026 17:12:59 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:12:59 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 136
+[21-Mar-2026 17:14:08 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:14:08 UTC] PHP Warning:  Undefined array key "SERVER_ADDR" in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 136
+[21-Mar-2026 17:14:10 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
+[21-Mar-2026 17:15:02 UTC] PHP Warning:  Attempt to read property "Value" on null in /var/www/html/wp-content/plugins/wp-serverinfo/wp-serverinfo.php on line 493
