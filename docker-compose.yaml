@@ -31,6 +31,7 @@ services:
         define( 'WP_POST_REVISIONS', 3 );
         define( 'WP_SITEURL', 'http://localhost/us-en' );
         define( 'WP_HOME', 'http://localhost/us-en' );
+    command: ["apache2-foreground"]
     volumes:
       - ./src:/var/www/html:delegated
       - .docker/php/opcache-recommended.ini:/usr/local/etc/php/conf.d/opcache-recommended.ini
