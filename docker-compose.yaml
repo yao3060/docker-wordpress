@@ -26,15 +26,18 @@ services:
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-root}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-domain}
-      WORDPRESS_DEBUG: 1
+      WORDPRESS_DEBUG: ${WORDPRESS_DEBUG:-0}
       WORDPRESS_CONFIG_EXTRA: |
         define( 'WP_POST_REVISIONS', 3 );
         define( 'WP_SITEURL', 'http://localhost/us-en' );
         define( 'WP_HOME', 'http://localhost/us-en' );
     volumes:
       - ./src:/var/www/html:delegated
+      - .docker/php/opcache-recommended.ini:/usr/local/etc/php/conf.d/opcache-recommended.ini
+      - .docker/php/wp.ini:/usr/local/etc/php/conf.d/wp.ini
     depends_on:
-      - wordpress_apache_db
+      wordpress_apache_db:
+        condition: service_healthy
     deploy:
       resources:
         limits:
@@ -52,6 +55,12 @@ services:
       MYSQL_ROOT_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
     volumes:
       - wordpress_apache_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
 
 
   wordpress_frankenphp:
@@ -65,7 +74,7 @@ services:
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-root}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-domain}
-      WORDPRESS_DEBUG: 1
+      WORDPRESS_DEBUG: ${WORDPRESS_DEBUG:-0}
       WORDPRESS_CONFIG_EXTRA: |
         define( 'WP_POST_REVISIONS', 3 );
         define( 'WP_SITEURL', 'http://localhost/eu-en' );
@@ -79,7 +88,8 @@ services:
       - caddy-config:/config
     command: ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
     depends_on:
-      - wordpress_frankenphp_db
+      wordpress_frankenphp_db:
+        condition: service_healthy
     deploy:
       resources:
         limits:
@@ -97,6 +107,12 @@ services:
       MYSQL_ROOT_PASSWORD: ${WORDPRESS_DB_PASSWORD:-root}
     volumes:
       - wordpress_frankenphp_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
 
   adminer:
     image: adminer

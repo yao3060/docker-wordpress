@@ -27,6 +27,23 @@
 | Failed requests         | 0            | 0            | Same                        |
 
 
+## Retest After Compose Updates
+
+After aligning PHP ini mounts for Apache, adding DB health checks, and setting `WORDPRESS_DEBUG` default to `0`, a new single-run benchmark was executed with the same `ab` parameters (`-n 1000 -c 100`).
+
+| Metric                  | FrankenPHP   | Apache       | Diff (FrankenPHP vs Apache) |
+| ----------------------- | ------------ | ------------ | --------------------------- |
+| Time taken for tests    | 23.513 s     | 33.911 s     | **-30.66%**                 |
+| Requests per second     | 42.53 req/s  | 29.49 req/s  | **+44.21%**                 |
+| Time per request (mean) | 2351.292 ms  | 3391.092 ms  | **-30.66%**                 |
+| Transfer rate           | 2853.23 KB/s | 1992.78 KB/s | **+43.18%**                 |
+| Processing mean         | 2229 ms      | 3293 ms      | **-32.31%**                 |
+| Waiting mean            | 2226 ms      | 3107 ms      | **-28.36%**                 |
+| P95 latency             | 2511 ms      | 4984 ms      | **-49.62%**                 |
+| P99 latency             | 2536 ms      | 5707 ms      | **-55.56%**                 |
+| Max latency             | 2665 ms      | 6399 ms      | **-58.35%**                 |
+| Failed requests         | 0            | 0            | Same                        |
+
 ## Key Findings
 
 1. Under `100` concurrency, `wordpress_frankenphp` clearly outperforms `wordpress_apache` in both throughput and latency.
