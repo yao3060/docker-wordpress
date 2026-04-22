@@ -2,47 +2,21 @@ name: Build and Push Docker Images
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - wordpress-php-8.4-frankenphp
     paths:
-      - 'wordpress-php-8.1-apache/**'
-      - 'wordpress-php-8.2-apache/**'
-      - 'wordpress-php-8.3-apache/**'
-      - 'wordpress-php-8.3-frankenphp/**'
       - 'wordpress-php-8.4-frankenphp/**'
-      - 'wordpress-php-8.5-frankenphp/**'
-      - 'laravel-php-8.4-frankenphp/**'
       - '.github/workflows/docker-publish.yml'
   workflow_dispatch:
 
 jobs:
   build-and-push:
-    name: Build and push (${{ matrix.image_name }}:${{ matrix.tag_suffix }})
+    name: Build and push (yao3060/wordpress:php8.4-frankenphp)
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - image_name: yao3060/wordpress
-            context: wordpress-php-8.5-frankenphp
-            tag_suffix: php8.5-frankenphp
-          - image_name: yao3060/wordpress
-            context: wordpress-php-8.4-frankenphp
-            tag_suffix: php8.4-frankenphp
-          - image_name: yao3060/wordpress
-            context: wordpress-php-8.3-frankenphp
-            tag_suffix: php8.3-frankenphp
-          - image_name: yao3060/wordpress
-            context: wordpress-php-8.3-apache
-            tag_suffix: php8.3-apache
-          - image_name: yao3060/wordpress
-            context: wordpress-php-8.2-apache
-            tag_suffix: php8.2-apache
-          - image_name: yao3060/wordpress
-            context: wordpress-php-8.1-apache
-            tag_suffix: php8.1-apache
-          - image_name: yao3060/laravel
-            context: laravel-php-8.4-frankenphp
-            tag_suffix: php8.4-frankenphp
+    env:
+      IMAGE_NAME: yao3060/wordpress
+      TAG: php8.4-frankenphp
+      CONTEXT: wordpress-php-8.4-frankenphp
 
     steps:
       - name: Checkout
@@ -63,10 +37,8 @@ jobs:
       - name: Build and push (multi-arch)
         uses: docker/build-push-action@v6
         with:
-          context: ./${{ matrix.context }}
+          context: ./${{ env.CONTEXT }}
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ matrix.image_name }}:${{ matrix.tag_suffix }}
+          tags: ${{ env.IMAGE_NAME }}:${{ env.TAG }}
           provenance: false
-
-
