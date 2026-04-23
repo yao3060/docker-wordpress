@@ -26,7 +26,7 @@ RUN install-php-extensions \
 		pcntl \
 		redis \
 		zip \
-        pdo
+        pdo_mysql
 
 
 RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
