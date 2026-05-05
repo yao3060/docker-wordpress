@@ -1,7 +1,7 @@
 ARG PHP_VERSION=8.4
 ARG USER=www-data
 
-FROM dunglas/frankenphp:1.11-php${PHP_VERSION}-bookworm
+FROM dunglas/frankenphp:1.12.2-php${PHP_VERSION}-bookworm
 
 ARG ENVIRONMENT
 
