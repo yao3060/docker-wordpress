@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.4
+ARG PHP_VERSION=8.5
 ARG USER=www-data
 
 FROM dunglas/frankenphp:1.12.2-php${PHP_VERSION}-bookworm
@@ -16,6 +16,7 @@ RUN set -eux; \
 
 # PHP extensions for WordPress (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
 # FrankenPHP image has install-php-extensions built-in; it installs system deps and cleans up automatically
+# @see https://github.com/mlocati/docker-php-extension-installer#supported-php-extensions
 RUN install-php-extensions imagick-3.8.1
 RUN install-php-extensions \
 		bcmath \
@@ -36,11 +37,15 @@ RUN cp $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
 RUN set -eux; \
     docker-php-ext-enable opcache; \
     { \
-    echo 'opcache.memory_consumption=128'; \
+    # OPcache共享内存大小，存储预编译的PHP字节码。对于现代WordPress，建议设为256MB或更高。
+    echo 'opcache.memory_consumption=256'; \ 
     echo 'opcache.interned_strings_buffer=8'; \
     echo 'opcache.max_accelerated_files=10000'; \
-    echo 'opcache.revalidate_freq=60'; \
+    # 若在开发环境必须开启文件检查，可设为此值（秒），让变更在2秒后生效。
+    echo 'opcache.revalidate_freq=0'; \
     echo 'opcache.enable_cli=1'; \
+    # 生产环境建议设为 0，这会关闭每次请求时的文件变更检查，极大提升性能。代码部署后需手动清空OPcache
+    echo 'opcache.validate_timestamps=0'; \
     } > $PHP_INI_DIR/conf.d/opcache-recommended.ini
 
 # https://wordpress.org/support/article/editing-wp-config-php/#configure-error-logging

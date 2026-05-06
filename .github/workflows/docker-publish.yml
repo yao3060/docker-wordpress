@@ -3,20 +3,20 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - wordpress-php-8.4-frankenphp
+      - wordpress-php-8.5-frankenphp
     paths:
-      - 'wordpress-php-8.4-frankenphp/**'
+      - 'wordpress-php-8.5-frankenphp/**'
       - '.github/workflows/docker-publish.yml'
   workflow_dispatch:
 
 jobs:
   build-and-push:
-    name: Build and push (yao3060/wordpress:php8.4-frankenphp)
+    name: Build and push (yao3060/wordpress:php8.5-frankenphp)
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: yao3060/wordpress
-      TAG: php8.4-frankenphp
-      CONTEXT: wordpress-php-8.4-frankenphp
+      TAG: php8.5-frankenphp
+      CONTEXT: wordpress-php-8.5-frankenphp
 
     steps:
       - name: Checkout
